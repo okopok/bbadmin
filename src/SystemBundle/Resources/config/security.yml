@@ -1,0 +1,9 @@
+security:
+    # ...
+    firewalls:
+        secured_area:
+            pattern: ^/security
+
+    access_control:
+        # require ROLE_ADMIN for /admin*
+        - { path: ^/security, roles: ROLE_ADMIN }

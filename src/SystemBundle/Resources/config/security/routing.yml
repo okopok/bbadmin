@@ -1,0 +1,14 @@
+_login:
+    path:     /login
+    defaults: { _controller: SystemBundle:Security:login }
+
+_login_check:
+    path:     /login_check
+#    defaults: { _controller: SystemBundle:Security:loginCheck }
+
+_logout:
+    path:     /logout
+
+_security:
+    path:     /security
+    defaults: { _controller: SystemBundle:Security:index }

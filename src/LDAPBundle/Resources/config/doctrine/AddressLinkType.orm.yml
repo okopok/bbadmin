@@ -1,0 +1,50 @@
+LDAPBundle\Entity\AddressLinkType:
+    type: entity
+    table: ldap_address_link_type
+    repositoryClass: LDAPBundle\Entity\AddressLinkTypeRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+    manyToMany:
+        addresses:
+            targetEntity: Address
+            joinTable:
+                name: event2address
+                joinColumns:
+                    address_link_type_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    address_id:
+                        referencedColumnName: id
+#        events:
+#            targetEntity: \EventBundle\Entity\Event
+#            joinTable:
+#                name: event2address
+#                joinColumns:
+#                    address_link_type_id:
+#                        referencedColumnName: id
+#                inverseJoinColumns:
+#                    event_id:
+#                        referencedColumnName: id
+        users:
+            targetEntity: Users
+            joinTable:
+                name: event2ldap
+                joinColumns:
+                    address_link_type_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    ldap_user_id:
+                        referencedColumnName: id
+    oneToOne:
+        systemUser:
+            targetEntity: \SystemBundle\Entity\User
+            mappedBy: ldap_user
+    lifecycleCallbacks: {  }

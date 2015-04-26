@@ -1,0 +1,10 @@
+_index:
+    path:     /
+    defaults: { _controller: SystemBundle:Default:index }
+
+_system_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: SystemBundle:Default:name }
+
+_security:
+    resource: "@SystemBundle/Resources/config/security/routing.yml"

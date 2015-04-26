@@ -1,0 +1,83 @@
+<?php
+
+namespace LDAPBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * User2Address
+ */
+class User2Address
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var integer
+     */
+    private $userId;
+
+    /**
+     * @var integer
+     */
+    private $addressId;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set userId
+     *
+     * @param integer $userId
+     * @return User2Address
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+
+        return $this;
+    }
+
+    /**
+     * Get userId
+     *
+     * @return integer 
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    /**
+     * Set addressId
+     *
+     * @param integer $addressId
+     * @return User2Address
+     */
+    public function setAddressId($addressId)
+    {
+        $this->addressId = $addressId;
+
+        return $this;
+    }
+
+    /**
+     * Get addressId
+     *
+     * @return integer 
+     */
+    public function getAddressId()
+    {
+        return $this->addressId;
+    }
+}

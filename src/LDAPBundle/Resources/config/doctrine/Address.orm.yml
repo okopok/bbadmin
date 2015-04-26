@@ -1,0 +1,43 @@
+LDAPBundle\Entity\Address:
+    type: entity
+    table: ldap_address
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+            unique: true
+            nullable: false
+            options:
+                comment: LDAP User's email address
+        created:
+            type: datetime
+            options:
+                comment: Created time
+        updated:
+            type: datetime
+            options:
+                comment: Updated time
+    manyToMany:
+        users:
+            targetEntity: Users
+            mappedBy: addresses
+        addressLinkTypes:
+            targetEntity: AddressLinkType
+            mappedBy: addresses
+#        events:
+#            targetEntity: \EventBundle\Entity\Event
+#            joinTable:
+#                name: event2address
+#                joinColumns:
+#                    address_id:
+#                        referencedColumnName: id
+#                inverseJoinColumns:
+#                    event_id:
+#                        referencedColumnName: id
+    lifecycleCallbacks: {  }

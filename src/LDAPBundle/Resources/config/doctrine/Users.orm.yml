@@ -1,0 +1,63 @@
+LDAPBundle\Entity\Users:
+    type: entity
+    table: ldap_users
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        username:
+            type: string
+            length: 255
+            unique: true
+        password:
+            type: string
+            length: 255
+        isActive:
+            type: boolean
+            column: is_active
+        description:
+            type: string
+            length: 255
+        created:
+            type: datetime
+            options:
+                comment: Created time
+        updated:
+            type: datetime
+            options:
+                comment: Updated time
+    manyToMany:
+        addresses:
+            targetEntity: Address
+            joinTable:
+                name: ldap_user2address
+                joinColumns:
+                    user_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    address_id:
+                        referencedColumnName: id
+#        events:
+#            targetEntity: \EventBundle\Entity\Event
+#            joinTable:
+#                name: event2ldap
+#                joinColumns:
+#                    ldap_user_id:
+#                        referencedColumnName: id
+#                inverseJoinColumns:
+#                    event_id:
+#                        referencedColumnName: id
+        addressLinkTypes:
+            targetEntity: \LDAPBundle\Entity\AddressLinkType
+            mappedBy: users
+    oneToOne:
+        systemUser:
+            targetEntity: \SystemBundle\Entity\User
+            mappedBy: ldap_user
+    lifecycleCallbacks: {  }

@@ -1,0 +1,8 @@
+{% extends '::base.html.twig' %}
+ {% block title %}
+     Привет {{ name }}!
+ {% endblock %}
+ {% block body_data %}
+     <h1>Привет {{ name }}!</h1>
+     <p>Вот этот вот "{{ name }}" был получен из адресной строки.</p>
+ {% endblock %}

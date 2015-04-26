@@ -1,0 +1,37 @@
+EventBundle\Entity\Event:
+    type: entity
+    table: event
+    repositoryClass: EventBundle\Entity\EventRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        dataTypeId:
+            type: integer
+            column: data_type_id
+        priority:
+            type: integer
+        catchTime:
+            type: datetime
+            column: catch_time
+        sourceUserId:
+            type: integer
+            column: source_user_id
+        sourceIp:
+            type: string
+            length: 255
+            column: source_ip
+        sourceGroupId:
+            type: integer
+            column: source_group_id
+    manyToMany:
+        addresses:
+            targetEntity: \LDAPBundle\Entity\Address
+            mappedBy: events
+        ldap_users:
+            targetEntity: \LDAPBundle\Entity\Users
+            mappedBy: events
+    lifecycleCallbacks: {  }

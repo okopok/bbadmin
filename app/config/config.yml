@@ -1,11 +1,11 @@
 imports:
     - { resource: parameters.yml }
+    - { resource: doctrine.yml }
     - { resource: security.yml }
     - { resource: services.yml }
 
 framework:
-    #esi:             ~
-    #translator:      { fallbacks: ["%locale%"] }
+    translator:      { fallbacks: [ru_RU] }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -16,7 +16,7 @@ framework:
     templating:
         engines: ['twig']
         #assets_version: SomeVersionScheme
-    default_locale:  "%locale%"
+#    default_locale:  "%locale%"
     trusted_hosts:   ~
     trusted_proxies: ~
     session:
@@ -43,26 +43,7 @@ assetic:
         #yui_css:
         #    jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
 
-# Doctrine Configuration
-doctrine:
-    dbal:
-        driver:   "%database_driver%"
-        host:     "%database_host%"
-        port:     "%database_port%"
-        dbname:   "%database_name%"
-        user:     "%database_user%"
-        password: "%database_password%"
-        charset:  UTF8
-        # if using pdo_sqlite as your database driver:
-        #   1. add the path in parameters.yml
-        #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
-        #   2. Uncomment database_path in parameters.yml.dist
-        #   3. Uncomment next line:
-        path:     "%database_path%"
 
-    orm:
-        auto_generate_proxy_classes: "%kernel.debug%"
-        auto_mapping: true
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -73,27 +54,53 @@ swiftmailer:
     spool:     { type: memory }
 
 
-sonata_block:
-#    title:  "Админка"
-    default_contexts: [cms]
-    blocks:
-        # Enable the SonataAdminBundle block
-        sonata.admin.block.admin_list:
-            contexts:   [admin]
-        # Your other blocks
 
-sonata_admin:
-    security:
-        handler: sonata.admin.security.handler.noop
-#        handler: sonata.admin.security.handler.acl
-        # acl security information
-        information:
-            GUEST:    [VIEW, LIST]
-            STAFF:    [EDIT, LIST, CREATE]
-            EDITOR:   [OPERATOR, EXPORT]
-            ADMIN:    [MASTER]
-        # permissions not related to an object instance and also to be available when objects do not exist
-        # the DELETE admin permission means the user is allowed to batch delete objects
-        admin_permissions: [CREATE, LIST, DELETE, UNDELETE, EXPORT, OPERATOR, MASTER]
-        # permission related to the objects
-        object_permissions: [VIEW, EDIT, DELETE, UNDELETE, OPERATOR, MASTER, OWNER]
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: SystemBundle\Entity\User
+    group:
+        group_class: SystemBundle\Entity\Group
+        form:
+            type:               fos_user_group
+            name:               fos_user_group_form
+            validation_groups:  [Registration, Default]
+    profile:
+        form:
+            type:               fos_user_profile
+            name:               fos_user_profile_form
+            validation_groups:  [Profile, Default]
+    change_password:
+        form:
+            type:               fos_user_change_password
+            name:               fos_user_change_password_form
+            validation_groups:  [ChangePassword, Default]
+    registration:
+        confirmation:
+            from_email: # Use this node only if you don't want the global email address for the confirmation email
+                address:        ...
+                sender_name:    ...
+            enabled:    false # change to true for required email confirmation
+            template:   FOSUserBundle:Registration:email.txt.twig
+        form:
+            type:               fos_user_registration
+            name:               fos_user_registration_form
+            validation_groups:  [Registration, Default]
+    resetting:
+        token_ttl: 86400
+        email:
+            from_email: # Use this node only if you don't want the global email address for the resetting email
+                address:        ...
+                sender_name:    ...
+            template:   FOSUserBundle:Resetting:email.txt.twig
+        form:
+            type:               fos_user_resetting
+            name:               fos_user_resetting_form
+            validation_groups:  [ResetPassword, Default]
+
+    service:
+        mailer:                 fos_user.mailer.default
+        email_canonicalizer:    fos_user.util.canonicalizer.default
+        username_canonicalizer: fos_user.util.canonicalizer.default
+        token_generator:        fos_user.util.token_generator.default
+        user_manager:           fos_user.user_manager.default
